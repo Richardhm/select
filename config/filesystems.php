@@ -60,6 +60,12 @@ return [
             'report' => false,
         ],
 
+        'administradoras' => [
+            'driver' => 'local',
+            'root' => public_path('administradoras'), // Caminho absoluto
+            'url' => env('APP_URL').'/administradoras', // URL pública
+            'visibility' => 'public',
+        ],
     ],
 
     /*
