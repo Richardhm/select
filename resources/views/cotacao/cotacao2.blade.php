@@ -142,7 +142,7 @@ focus:ring-4 focus:ring-gray-200 bg-red-400">
 
 {{--Sem Odotno--}}
 {{-- Tabela sem Odonto --}}
-<div style="border-color: #bde521;" class="flex justify-center items-center w-full
+<div style="border-color: #FFF;" class="flex justify-center items-center w-full
 py-0.5 mb-1 text-sm font-medium
 text-white focus:outline-none bg-gray-500 bg-opacity-10 rounded-lg border-2
  dark:bg-gray-500 dark:bg-opacity-10 text-black">
@@ -154,13 +154,13 @@ text-white focus:outline-none bg-gray-500 bg-opacity-10 rounded-lg border-2
     <thead>
 
     <tr>
-        <td rowspan="2" style="border-color: #bde521;" class="text-center text-sm border-2 border-r border-b text-white dark:text-white" style="vertical-align:middle;">Faixa Etária</td>
-        <td colspan="2" style="border-color: #bde521;" class="text-center text-sm border-2 border-r border-b text-white dark:text-white">Com Copar</td>
+        <td rowspan="2" style="border-color: #FFF;" class="text-center text-sm border-2 border-r border-b text-white dark:text-white" style="vertical-align:middle;">Faixa Etária</td>
+        <td colspan="2" style="border-color: #FFF;" class="text-center text-sm border-2 border-r border-b text-white dark:text-white">Com Copar</td>
 
     </tr>
     <tr>
-        <td style="border-color: #bde521;" class="border-2 border-r border-b text-sm text-white dark:text-white text-center">APART</td>
-        <td style="border-color: #bde521;" class="border-2 border-r border-b text-sm text-white dark:text-white text-center">ENFER</td>
+        <td style="border-color: #FFF;" class="border-2 border-r border-b text-sm text-white dark:text-white text-center">APART</td>
+        <td style="border-color: #FFF;" class="border-2 border-r border-b text-sm text-white dark:text-white text-center">ENFER</td>
 
 
     </tr>
@@ -226,7 +226,7 @@ text-white focus:outline-none bg-gray-500 bg-opacity-10 rounded-lg border-2
 
 
     </tbody>
-    <table style="border-color: #bde521;" class="w-full dark:bg-opacity-20 border-2 rounded-lg bordered mt-2 py-0.5">
+    <table style="border-color: #FFF;" class="w-full dark:bg-opacity-20 border-2 rounded-lg bordered mt-2 py-0.5">
         <tfoot>
         <tr>
             <td class="text-white text-xs py-0.5 text-center">Total</td>

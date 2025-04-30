@@ -1,25 +1,25 @@
-<div style="border-color: #bde521;" class="mt-2 rounded p-1 bg-[rgba(254,254,254,0.18)] backdrop-blur-[15px] border-2 dark:border-white w-full lg:w-[22%]" id="container_informacoes">
-    <button style="border-color: #bde521;" class="py-2 w-full px-1 me-2 mb-2 text-sm font-medium dark:text-white text-white rounded-lg border-2 dark:border-gray-200 dark:bg-gray-500 dark:bg-opacity-10">
+<div style="border-color: #FFF;" class="mt-2 rounded p-1 bg-[rgba(254,254,254,0.18)] backdrop-blur-[15px] border-2 dark:border-white w-full lg:w-[22%]" id="container_informacoes">
+    <button style="border-color: #FFF;" class="py-2 w-full px-1 me-2 mb-2 text-sm font-medium dark:text-white text-white rounded-lg border-2 dark:border-gray-200 dark:bg-gray-500 dark:bg-opacity-10">
         Tabela de Origem
     </button>
 
     <form>
         <div class="w-full flex">
             <div class="ml-3 w-[32%]">
-                <label for="estado" class="font-extrabold text-sm" style="color:#bde521;">UF</label>
-                <select id="estado" style="color:#bde521" class="font-extrabold py-2 py-2 w-full dark:border-white text-xs px-1 me-2 mb-2 font-medium rounded-lg dark:bg-transparent dark:text-white">
-                    <option value="" class="text-sm font-extrabold" style="color:#bde521;">Escolher UF</option>
+                <label for="estado" class="font-extrabold text-sm" style="color:#FFF;">UF</label>
+                <select id="estado" style="color:#000" class="font-extrabold py-2 py-2 w-full dark:border-white text-xs px-1 me-2 mb-2 font-medium rounded-lg dark:bg-transparent dark:text-white">
+                    <option value="" class="text-sm font-extrabold" style="color:#000;">Escolher UF</option>
                     @foreach($estados as $uf)
-                        <option value="{{$uf->uf}}" class="text-sm font-extrabold" style="color:#bde521;">{{$uf->uf}}</option>
+                        <option value="{{$uf->uf}}" class="text-sm font-extrabold" style="color:#000;">{{$uf->uf}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="ml-1 w-[60%]">
-                <label for="cidade" class="text-sm font-extrabold" style="color:#bde521;">Cidade</label>
-                <select id="cidade" style="color:#bde521" class="font-extrabold py-2 py-2 w-full dark:border-white text-xs px-1 me-2 mb-2 font-medium rounded-lg dark:bg-transparent dark:text-white">
-                    <option value="" style="color:#bde521;" class="text-sm font-extrabold">Escolher Cidade</option>
+                <label for="cidade" class="text-sm font-extrabold" style="color:#FFF;">Cidade</label>
+                <select id="cidade" style="color:#000;" class="font-extrabold py-2 py-2 w-full dark:border-white text-xs px-1 me-2 mb-2 font-medium rounded-lg dark:bg-transparent dark:text-white">
+                    <option value="" style="color:#000;" class="text-sm font-extrabold">Escolher Cidade</option>
                     @foreach($cidades as $cc)
-                        <option value="{{$cc->id}}" class="text-sm font-extrabold" style="color:#bde521;">{{$cc->nome}}</option>
+                        <option value="{{$cc->id}}" class="text-sm font-extrabold" style="color:#000;">{{$cc->nome}}</option>
                     @endforeach
                 </select>
             </div>

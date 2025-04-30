@@ -49,7 +49,7 @@
         <x-informacoes :cidades="$cidades" :estados="$estados" class="sm:mx-5"></x-informacoes>
         <x-operadoras :operadoras="$administradoras" class="sm:mx-5"></x-operadoras>
         <x-planos :planos="$planos" class="sm:mx-5"></x-planos>
-        <div style="border-color: #bde521;" class="p-1 rounded mt-2 hidden bg-[rgba(254,254,254,0.18)] backdrop-blur-[15px] border-2 w-full lg:w-[30%] sm:mx-5" id="resultado"></div>
+        <div style="border-color: #FFF;" class="p-1 rounded mt-2 hidden bg-[rgba(254,254,254,0.18)] backdrop-blur-[15px] border-2 w-full lg:w-[30%] sm:mx-5" id="resultado"></div>
     </div>
 
     <div id="modalPlanoAmbulatorial" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
