@@ -183,8 +183,8 @@ class DashboardController extends Controller
 
     public function criarPDF()
     {
-        $com_coparticipacao = request()->comcoparticipacao  == "true" ? 1 : 0;
-        $sem_coparticipacao = request()->semcoparticipacao  == "true" ? 1 : 0;
+        $com_coparticipacao = 1;
+        $sem_coparticipacao = 0;
         //$status_desconto    = request()->status_desconto    == "true" ? 1 : 0;
         $apenasvalores      = request()->apenasvalores      == "true" ? 1 : 0;
         $tipo_documento     = request()->tipo_documento;

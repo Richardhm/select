@@ -117,14 +117,14 @@
             </div>
 
             <div class="space-y-2">
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" id="comCoparticipacao" checked="checked" class="form-checkbox">
-                    <span class="font-semibold">Com Coparticipação</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" id="semCoparticipacao" checked="checked" class="form-checkbox">
-                    <span class="font-semibold">Sem Coparticipação</span>
-                </label>
+{{--                <label class="flex items-center space-x-2">--}}
+{{--                    <input type="checkbox" id="comCoparticipacao" checked="checked" class="form-checkbox">--}}
+{{--                    <span class="font-semibold">Com Coparticipação</span>--}}
+{{--                </label>--}}
+{{--                <label class="flex items-center space-x-2">--}}
+{{--                    <input type="checkbox" id="semCoparticipacao" checked="checked" class="form-checkbox">--}}
+{{--                    <span class="font-semibold">Sem Coparticipação</span>--}}
+{{--                </label>--}}
                 <label class="flex items-center space-x-2">
                     <input type="checkbox" id="apenasValores" class="form-checkbox">
                     <span class="font-semibold">Apenas Valores</span>

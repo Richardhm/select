@@ -9,19 +9,19 @@
     <style>
 
 
-       	@font-face {
-        	font-family: 'Roboto';
-        	src: url('{{ public_path("fonts/Roboto-Regular.ttf") }}') format('truetype');
-        	font-weight: normal;
-        	font-style: normal;
-    	}
+        @font-face {
+            font-family: 'Roboto';
+            src: url('{{ public_path("fonts/Roboto-Regular.ttf") }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-    	@font-face {
-        	font-family: 'Roboto';
-        	src: url('{{ public_path("fonts/Roboto-Bold.ttf") }}') format('truetype');
-        	font-weight: bold;
-        	font-style: normal;
-    	}
+        @font-face {
+            font-family: 'Roboto';
+            src: url('{{ public_path("fonts/Roboto-Bold.ttf") }}') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
 
         html, body {
             width: 100%;
@@ -29,7 +29,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Roboto', sans-serif !important;
-            background-color: rgb(12,77,193);
+            background-color: white;
         }
         tr {
             line-height: 1;
@@ -121,7 +121,7 @@
             left:42%;
             font-weight: bold;
             font-size: 2em;
-            color:white;
+            color:#bde521;
         }
 
         .frase_container {
@@ -130,7 +130,7 @@
             left:36%;
             font-weight: bold;
             font-size: 1.5em;
-            color:white;
+            color:#bde521;
         }
 
 
@@ -151,15 +151,15 @@
 
         .bloco {
             display: inline-table;
-    background: white;
-    border-radius: 60px;
-    vertical-align: top;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+            background: white;
+            border-radius: 60px;
+            vertical-align: top;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
         }
 
         .header-orange {
-            background: #F88058;
+            background: #6e4feb;
             color: white;
             padding: 20px;
             border-radius: 55px 55px 0 0;
@@ -199,7 +199,7 @@
         }
 
         .valor-copart {
-            background: rgb(254,199,72);
+            background: #bde521;
             padding: 12px !important;
             margin: 5px 3px;
             border-radius: 8px;
@@ -211,7 +211,7 @@
         }
 
         .valor-copart-laranja {
-            background: #F88058;
+            background: #6e4feb;
             padding: 12px !important;
             margin: 5px 3px;
             border-radius: 0 0 55px 55px;
@@ -258,17 +258,17 @@
 
 
         .linha-procedimento {
-             margin: 0;
-             padding:0;
+            margin: 0;
+            padding:0;
         }
 
         .linha-procedimento span {
-             font-size:1.3em;
-             color: rgb(8,73,189);
-             display:block;
-             font-weight:bold;
-             margin:0px;
-             padding:0 0 0 30px;
+            font-size:1.3em;
+            color: rgb(8,73,189);
+            display:block;
+            font-weight:bold;
+            margin:0px;
+            padding:0 0 0 30px;
 
         }
 
@@ -284,11 +284,11 @@
     </style>
 </head>
 <body>
-    <div class="header-container">
-        <img style="position: absolute;top: 0;width:100%;height:300px;left: 0;object-fit: cover;" src="{{ $folder ? $folder . '/' : 'layouts' }}/cabecalhos/cabecalho1.png" alt="Orçamento">
-    </div>
-    <p class="cidade_container">{{$cidade}}</p>
-    <p class="frase_container">{{$frase}}</p>
+<div class="header-container">
+    <img style="position: absolute;top: 0;width:100%;height:300px;left: 0;object-fit: cover;" src="{{ $folder ? $folder . '/' : 'layouts' }}/cabecalhos/cabecalho1.png" alt="Orçamento">
+</div>
+<p class="cidade_container" style="text-transform:uppercase;width:100%">{{$cidade}}</p>
+<p class="frase_container" style="text-transform:uppercase;width:100%">{{$frase}}</p>
 
 
 @php
@@ -361,13 +361,13 @@
 
                     @foreach($dadosComOdonto as $faixaEtaria => $valores)
                         @for($i=0;$i<$valores['quantidade'];$i++)
-                    <tr>
-                        <td>
-                            <div class="valor-copart">
-                                {{ $faixaEtaria }}
-                            </div>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>
+                                    <div class="valor-copart">
+                                        {{ $faixaEtaria }}
+                                    </div>
+                                </td>
+                            </tr>
                         @endfor
                     @endforeach
                     <tr>
@@ -378,156 +378,140 @@
                 </table>
             </td>
             @if($com_coparticipacao == 1)
-            <!-- Bloco 2 - Com Coparticipação -->
-            <td class="bloco" style="width: {{ $widths[$totalBlocos] }}; margin: {{ $margins[$totalBlocos] }};">
-                <table width="100%">
-                    <tr>
-                        <td colspan="2" class="header-orange" style="text-align:center;">COM COPARTICIPAÇÃO</td>
-                    </tr>
-                    <tr>
-                        <td class="coluna-azul">
-                            ENFER
-                            @if($odonto_frase == " c/ Odonto" && $plano_nome == "Individual")
-                                11819
-                            @elseif($odonto_frase == " c/ Odonto" && $plano_nome == "Super Simples")
-                                11162
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Individual")
-                                11165
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Super Simples")
-                                11162
-                            @endif
-                        </td>
-                        <td class="coluna-azul">
-                            APART
-                            @if($odonto_frase == " c/ Odonto" && $plano_nome == "Individual")
-                                11820
-                            @elseif($odonto_frase == " c/ Odonto" && $plano_nome == "Super Simples")
-                                11170
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Individual")
-                                11173
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Super Simples")
-                                11170
-                            @endif
-                        </td>
-                    </tr>
-                    @foreach($dadosComOdonto as $faixaEtaria => $valores)
-                        @for($i=0;$i<$valores['quantidade'];$i++)
-                    <tr>
-                        <td>
-                           <div class="valor-copart">
-                           	@php
-                                    $totalEnfermaria_com_copar += $valores['2_com_copar'];
-                                @endphp
-                                {{ number_format($valores['2_com_copar'], 2, ",", ".") }}
-                           </div>
-                        </td>
-                        <td>
-                           <div class="valor-copart">
-                           	@php
-                                    $totalApartamento_com_copar += $valores['1_com_copar'];
-                                @endphp
-                                {{ number_format($valores['1_com_copar'], 2, ",", ".") }}
-                           </div>
-                        </td>
-                    </tr>
-                        @endfor
-                    @endforeach
-                    <tfoot>
-            	    <tr>
+                <!-- Bloco 2 - Com Coparticipação -->
+                <td class="bloco" style="width: {{ $widths[$totalBlocos] }}; margin: {{ $margins[$totalBlocos] }};">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2" class="header-orange" style="text-align:center;">COM COPARTICIPAÇÃO</td>
+                        </tr>
+                        <tr>
+                            <td class="coluna-azul">
+                                ENFERMARIA
 
-                	<td>
-                	     	<div class="valor-copart-laranja">
-                        	{{number_format($totalEnfermaria_com_copar,2,",",".")}}
-                    	   </div>
-                	</td>
-                	<td>
-                    	<div class="valor-copart-laranja">
-                        	{{number_format($totalApartamento_com_copar,2,",",".")}}
-                        </div>
-                       </td>
-            </tr>
-        </tfoot>
-                </table>
+                            </td>
+                            <td class="coluna-azul">
+                                APARTAMENTO
 
-            </td>
+                            </td>
+                        </tr>
+                        @foreach($dadosComOdonto as $faixaEtaria => $valores)
+                            @for($i=0;$i<$valores['quantidade'];$i++)
+                                <tr>
+                                    <td>
+                                        <div class="valor-copart">
+                                            @php
+                                                $totalEnfermaria_com_copar += $valores['2_com_copar'];
+                                            @endphp
+                                            {{ number_format($valores['2_com_copar'], 2, ",", ".") }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="valor-copart">
+                                            @php
+                                                $totalApartamento_com_copar += $valores['1_com_copar'];
+                                            @endphp
+                                            {{ number_format($valores['1_com_copar'], 2, ",", ".") }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endfor
+                        @endforeach
+                        <tfoot>
+                        <tr>
+
+                            <td>
+                                <div class="valor-copart-laranja">
+                                    {{number_format($totalEnfermaria_com_copar,2,",",".")}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="valor-copart-laranja">
+                                    {{number_format($totalApartamento_com_copar,2,",",".")}}
+                                </div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                </td>
             @endif
 
             @if($sem_coparticipacao == 1)
-            <!-- Bloco 3 - Sem Coparticipação -->
-            <td class="bloco" style="width: {{ $widths[$totalBlocos] }};{{$totalBlocos <= 2 ? 'margin-left:1%;' : 'margin-left:0%;'}} ">
-                <table width="100%">
-                    <tr>
-                        <td colspan="2" class="header-orange" style="text-align:center;">SEM COPARTICIPAÇÃO *</td>
-                    </tr>
-                    <tr>
-                        <td class="coluna-azul">
-                            ENFER
-                            @if($odonto_frase == " c/ Odonto" && $plano_nome == "Individual")
-                                21068
-                            @elseif($odonto_frase == " c/ Odonto" && $plano_nome == "Super Simples")
-                                21223
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Individual")
-                                21069
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Super Simples")
-                                21223
-                            @endif
-                        </td>
-                        <td class="coluna-azul">
-                            APART
-                            @if($odonto_frase == " c/ Odonto" && $plano_nome == "Individual")
-                                21070
-                            @elseif($odonto_frase == " c/ Odonto" && $plano_nome == "Super Simples")
-                                21224
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Individual")
-                                21071
-                            @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Super Simples")
-                                21224
-                            @endif
-                        </td>
-                    </tr>
+                <!-- Bloco 3 - Sem Coparticipação -->
+                <td class="bloco" style="width: {{ $widths[$totalBlocos] }};{{$totalBlocos <= 2 ? 'margin-left:1%;' : 'margin-left:0%;'}} ">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2" class="header-orange" style="text-align:center;">SEM COPARTICIPAÇÃO *</td>
+                        </tr>
+                        <tr>
+                            <td class="coluna-azul">
+                                ENFER
+                                @if($odonto_frase == " c/ Odonto" && $plano_nome == "Individual")
+                                    21068
+                                @elseif($odonto_frase == " c/ Odonto" && $plano_nome == "Super Simples")
+                                    21223
+                                @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Individual")
+                                    21069
+                                @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Super Simples")
+                                    21223
+                                @endif
+                            </td>
+                            <td class="coluna-azul">
+                                APART
+                                @if($odonto_frase == " c/ Odonto" && $plano_nome == "Individual")
+                                    21070
+                                @elseif($odonto_frase == " c/ Odonto" && $plano_nome == "Super Simples")
+                                    21224
+                                @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Individual")
+                                    21071
+                                @elseif($odonto_frase == " s/ Odonto" && $plano_nome == "Super Simples")
+                                    21224
+                                @endif
+                            </td>
+                        </tr>
 
-                    @foreach($dadosComOdonto as $faixaEtaria => $valores)
-                        @for($i=0;$i<$valores['quantidade'];$i++)
-                    <tr >
-                        <td>
-                           <div class="valor-copart">
-                           	@php
-                                    $totalEnfermaria_sem_copar += $valores['2_sem_copar'];
-                                @endphp
-                                {{ number_format($valores['2_sem_copar'], 2, ",", ".") }}
-                           </div>
-                        </td>
-                        <td>
-                           <div class="valor-copart">
-                           	@php
-                                    $totalApartamento_sem_copar += $valores['1_sem_copar'];
-                                @endphp
-                                {{ number_format($valores['1_sem_copar'], 2, ",", ".") }}
-                           </div>
-                        </td>
-                    </tr>
-                        @endfor
-                    @endforeach
-                    <tfoot>
-            <tr>
+                        @foreach($dadosComOdonto as $faixaEtaria => $valores)
+                            @for($i=0;$i<$valores['quantidade'];$i++)
+                                <tr >
+                                    <td>
+                                        <div class="valor-copart">
+                                            @php
+                                                $totalEnfermaria_sem_copar += $valores['2_sem_copar'];
+                                            @endphp
+                                            {{ number_format($valores['2_sem_copar'], 2, ",", ".") }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="valor-copart">
+                                            @php
+                                                $totalApartamento_sem_copar += $valores['1_sem_copar'];
+                                            @endphp
+                                            {{ number_format($valores['1_sem_copar'], 2, ",", ".") }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endfor
+                        @endforeach
+                        <tfoot>
+                        <tr>
 
-                <td>
-                    <div class="valor-copart-laranja">
-                        {{number_format($totalEnfermaria_sem_copar,2,",",".")}}
-                    </div>
-                </td>
-                <td>
-                    <div class="valor-copart-laranja">
-                        {{number_format($totalApartamento_sem_copar,2,",",".")}}
-                     </div>
-                </td>
-            </tr>
-        </tfoot>
-                </table>
-                <tr>
-              </tr>
-            </td>
-            @endif
+                            <td>
+                                <div class="valor-copart-laranja">
+                                    {{number_format($totalEnfermaria_sem_copar,2,",",".")}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="valor-copart-laranja">
+                                    {{number_format($totalApartamento_sem_copar,2,",",".")}}
+                                </div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+        <tr>
+        </tr>
+        </td>
+        @endif
         </tr>
     </table>
 
