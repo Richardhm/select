@@ -635,7 +635,7 @@ class DashboardController extends Controller
         $nome = auth()->user()->name;
         $celular = auth()->user()->phone;
         $corretora = auth()->user()->corretora_id;
-        $status_carencia = request()->status_carencia == "true" ? 1 : 0;
+        $status_carencia = 1;
         $status_desconto = request()->status_desconto == "true" ? 1 : 0;
         if($ambulatorial == 0) {
             $dados = Tabela::select('tabelas.*')
