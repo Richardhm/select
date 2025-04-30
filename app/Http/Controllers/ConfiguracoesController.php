@@ -324,6 +324,7 @@ class ConfiguracoesController extends Controller
             'exames_complexos_total' => 'nullable|string',
             'terapias_especiais_total' => 'nullable|string',
             'consultas_eletivas_parcial' => 'nullable|string',
+
             'exames_simples_parcial' => 'nullable|string',
             'exames_complexos_parcial' => 'nullable|string',
             'terapias_especiais_parcial' => 'nullable|string',

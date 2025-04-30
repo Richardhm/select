@@ -97,7 +97,7 @@
                                 'consultas_de_urgencia' => 'Atendimento de Urgência',
                                 'exames_simples' => 'Exames Simples',
                                 'exames_complexos' => 'Exames Complexos',
-                                'terapias' => 'Terapias'
+                                'terapias_especiais' => 'Terapias'
 
                             ];
                         @endphp

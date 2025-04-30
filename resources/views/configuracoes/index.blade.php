@@ -147,13 +147,16 @@
                 var valores = [];
 
                 $("body").on('change', 'select[class^="tabela"]', function (e) {
+
+                    let individual = $("#individual").is(":checked");
+
                     let todosPreenchidos = true;
                     if ($('select[name="administradora"]').val() == '' ||
-                        $('select[name="vidas"]').val() == '' ||
                         $('select[name="planos"]').val() == '' ||
                         $('select[name="tabela_origem"]').val() == '' ||
                         $('select[name="coparticipacao"]').val() == '' ||
-                        $('select[name="odonto"]').val() == '')
+                        $('select[name="odonto"]').val() == ''||
+                        (individual && $('select[name="vidas"]').val() == ''))
                     {
                         todosPreenchidos = false;
                         return false;

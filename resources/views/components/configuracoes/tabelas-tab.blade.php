@@ -1,5 +1,6 @@
 <div>
     <div id="aba_tabela" class="mt-4">
+        Individual? <input type="checkbox" id="individual">
         <div id="container_alert_cadastrar" class="text-center"></div>
 
         <div class="bg-[rgba(254,254,254,0.18)] backdrop-blur-[15px] shadow rounded p-2">

@@ -117,9 +117,6 @@ class DashboardController extends Controller
 
 
 
-
-
-
         if($ambulatorial == 0) {
             $dados = Tabela::select('tabelas.*')
                 ->selectRaw("CASE $sql END AS quantidade")
@@ -127,7 +124,9 @@ class DashboardController extends Controller
                 ->where('tabelas.tabela_origens_id', $cidade)
                 ->where('tabelas.plano_id', $plano)
                 ->where('tabelas.administradora_id', $operadora)
-                ->where('tabelas.vidas',$vidas)
+                ->when(in_array($plano, [1]), function ($query) use ($vidas) {
+                    return $query->where('tabelas.vidas', $vidas);
+                })
                 //->where('acomodacao_id',"!=",3)
                 ->whereIn('tabelas.faixa_etaria_id', explode(',', $keys))
                 ->get();
@@ -136,11 +135,6 @@ class DashboardController extends Controller
             if($desconto == 1) {
                 $status_desconto = 1;
             }
-
-
-
-
-
 
 
             $status = $dados->contains('odonto', 0);
@@ -240,8 +234,11 @@ class DashboardController extends Controller
                 ->selectRaw("CASE $sql END AS quantidade")
                 ->join('faixa_etarias', 'faixa_etarias.id', '=', 'tabelas.faixa_etaria_id')
                 ->where('tabelas.tabela_origens_id', $cidade)
-                ->where('tabelas.plano_id', $plano)
-                ->where('tabelas.vidas',$vidas)
+                ->when(in_array($plano, [1]), function ($query) use ($vidas) {
+                    return $query->where('tabelas.vidas', $vidas);
+                })
+                ->where('tabelas.plano_id',$plano)
+
                 ->where('tabelas.administradora_id', $operadora)
                 ->where("tabelas.odonto",$odonto)
                 ->where("acomodacao_id","!=",3)
