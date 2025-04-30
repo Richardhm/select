@@ -397,7 +397,7 @@
 
                     <ul class="space-y-2 text-gray-600 text-xs">
                         <li class="flex items-center">
-                            ✅ 01 Usuários
+                            ✅ 01 Usuário
                         </li>
                         <li class="flex items-center">
                             ✅ Taxa implantação R$ 50,00 (PIX)
@@ -418,9 +418,10 @@
                             ✅ Gestão completa
                         </li>
                         <li class="flex items-center">
-                            ✅ Acima de 1 usuários, R$ 37,90/usuario
+                            ✅ Acima de 1 usuário, R$ 37,90/usuario
                         </li>
                     </ul>
+                    <div class="text-center text-red-600 mt-2">Experimente por 7 dias grátis</div>
                 </div>
 
                 <div>
