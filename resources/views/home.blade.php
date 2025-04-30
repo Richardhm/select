@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>BmSyS</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -384,23 +384,23 @@
             <a href="" class="bg-white w-full md:w-[320px] min-h-[70vh] rounded-xl shadow-lg p-4 md:p-6 border-4 border-purple-950 transition-all hover:bg-gray-100 flex flex-col justify-between">
                 <div>
 
-                    <div class="bg-purple-950 text-white text-center py-3 rounded-full mt-6">
+                    <div class="bg-red-600 text-white text-center py-3 rounded-full mt-6">
                         Assine Agora
                     </div>
                     <div class="my-6 text-center flex items-center justify-center">
                         <p class="flex flex-col items-start relative">
                             <span class="text-lg font-bold text-purple-900 leading-none">R$</span>
-                            <span class="text-7xl font-bold text-purple-900">129,90</span>
+                            <span class="text-7xl font-bold text-purple-900">39,90</span>
                             <span class="text-sm text-purple-900 self-end">/mês</span>
                         </p>
                     </div>
 
                     <ul class="space-y-2 text-gray-600 text-xs">
                         <li class="flex items-center">
-                            ✅ Liberado para 03 Usuários
+                            ✅ 01 Usuários
                         </li>
                         <li class="flex items-center">
-                            ✅ Taxa implantação R$ 100,00 (PIX)
+                            ✅ Taxa implantação R$ 50,00 (PIX)
                         </li>
                         <li class="flex items-center">
                             ✅ Tabelas Nacionais Atualizadas
@@ -418,7 +418,7 @@
                             ✅ Gestão completa
                         </li>
                         <li class="flex items-center">
-                            ✅ Acima de 3 usuários, R$ 37,90/usuario
+                            ✅ Acima de 1 usuários, R$ 37,90/usuario
                         </li>
                     </ul>
                 </div>
