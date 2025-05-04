@@ -18,6 +18,8 @@ Route::post('/assinaturas/individual', [AssinaturaController::class, 'storeIndiv
 
 Route::get('/bem-vindo/{user}', [BemvindoController::class, 'index'])->name('bemvindo');
 
+Route::post('/callback', [CallbackController::class,'index']);
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class,"index"])
@@ -83,7 +85,7 @@ Route::middleware('auth')->group(function () {
 
     //});
     /********* Fim Configurações **************/
-
+    Route::post("/assinatura/trial/store", [AssinaturaController::class, 'storeTrial'])->name('assinaturas.trial.store')->middleware('apenasAdministradores');
     Route::get('/users/manage', [UserController::class, 'index'])->name('users.manage')
         ->middleware(['apenasAdministradores','check']);
     Route::get("/assinatura/alterar", [AssinaturaController::class, 'edit'])->name('assinatura.edit')->middleware('apenasAdministradores');

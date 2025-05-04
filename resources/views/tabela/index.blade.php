@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-full mx-auto sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-x-4 px-4" style="align-items: flex-start;">
-        <x-informacoes-tabela :cidades="$cidades" class="sm:mx-5"></x-informacoes-tabela>
+        <x-informacoes-tabela :cidades="$cidades" :estados="$estados" class="sm:mx-5"></x-informacoes-tabela>
         <x-operadoras-tabela :operadoras="$administradoras" class="sm:mx-5"></x-operadoras-tabela>
         <x-planos-tabela :planos="$planos" class="sm:mx-5"></x-planos-tabela>
         <div class="p-1 rounded mt-2 hidden bg-[rgba(254,254,254,0.18)] backdrop-blur-[15px] border w-full lg:w-[30%] sm:mx-5" id="resultado"></div>
@@ -45,6 +45,38 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
+                $('#estado').on('change', function() {
+                    let estado_id = $(this).val();
+
+                    if(estado_id) {
+                        $('#loading-cidades').fadeIn(150);
+                        $.ajax({
+                            url: '{{route('cidades.origem')}}', // endpoint para post
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                uf: estado_id, // 'uf' ou 'id', conforme seu campo
+                                _token: $('meta[name="csrf-token"]').attr('content') // CSRF Token Laravel
+                            },
+                            success:function(data) {
+                                $('#cidade').empty();
+                                $('#cidade').append('<option value="" class="text-center text-lg text-black">Escolher Cidade</option>');
+                                $.each(data, function(key, value) {
+                                    $('#cidade').append('<option value="'+ value.id +'" class="text-black hover:bg-transparent focus:bg-transparent focus:text-white" style="background-color:#5c636a !important;opacity:0.2;color:white;">' + value.nome + '</option>');
+                                });
+                            },
+                            complete: function() {
+                                // Esconde loader sempre ao finalizar
+                                $('#loading-cidades').fadeOut(150);
+                            }
+                        });
+                    } else {
+                        $('#cidade').empty();
+                        $('#cidade').append('<option value="">Escolher Cidade</option>');
+                    }
+                });
+
 
                 $("body").on('change touchstart',"input[name='operadoras']",function(e){
                     e.preventDefault();

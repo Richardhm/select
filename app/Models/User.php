@@ -108,13 +108,53 @@ class User extends Authenticatable implements MustVerifyEmail
             ->exists();
     }
 
+    public function isActive()
+    {
+        return $this->status == 1; // Retorna verdadeiro se status for 1 (ativo)
+    }
+
+    public function assinaturaUser()
+    {
+
+        return EmailAssinatura::whereHas('assinatura', function ($query) {
+            $query->where('user_id', $this->id);
+        })->toSql();
+    }
+
     public function assinaturaStatus()
     {
 
         return $this->hasMany(\App\Models\Assinatura::class, 'user_id');
     }
 
+    public function assinatura()
+    {
+        return $this->hasOne(Assinatura::class);
+    }
 
+    public function tabelasOrigens()
+    {
+        return $this->hasManyThrough(
+            TabelaOrigens::class,
+            AssinaturaCidade::class,
+            'assinatura_id',    // Foreign key na tabela assinaturas_cidade
+            'id',               // Foreign key na tabela tabela_origens
+            'id',               // Local key na tabela users (não direto, precisa do through)
+            'tabela_origem_id'  // Local key na tabela assinaturas_cidade
+        )->through('assinatura');
+    }
+
+    public function assinaturas()
+    {
+        return $this->hasOneThrough(
+            Assinatura::class,
+            EmailAssinatura::class,
+            'user_id',       // Foreign key na tabela emails_assinatura
+            'id',            // Foreign key na tabela assinaturas
+            'id',            // Local key na tabela users
+            'assinatura_id'  // Local key na tabela emails_assinatura
+        );
+    }
 
 
 

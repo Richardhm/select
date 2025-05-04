@@ -345,7 +345,7 @@
             <!-- Right Column - Preview do GIF -->
             <div class="relative group cursor-pointer w-[70%] md:mt-10 mx-auto" onclick="openVideoModal()">
                 <div class="relative rounded-xl overflow-hidden shadow-2xl transform group-hover:scale-90 transition-transform">
-                    <img src="{{asset('tela.png')}}" alt="Preview" class="object-cover">
+                    <img src="{{asset('tela-home.png')}}" alt="Preview" class="object-cover">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                         <svg class="w-14 h-14 text-white opacity-75 hover:opacity-100 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>

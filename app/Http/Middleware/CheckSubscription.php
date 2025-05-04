@@ -18,6 +18,7 @@ class CheckSubscription
         $user = $request->user();
 
         if ($user && $user->assinaturas) {
+
             $assinatura = $user->assinaturas;
 
             if ($assinatura->status === 'trial' && now()->gt($assinatura->trial_ends_at)) {

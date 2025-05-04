@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Acomodacao;
 use App\Models\Administradora;
 use App\Models\AdministradoraPlano;
+use App\Models\EmailAssinatura;
 use App\Models\FaixaEtaria;
 use App\Models\Pdf;
 use App\Models\PdfExcecao;
@@ -17,11 +18,15 @@ class TabelaController extends Controller
 {
     public function index()
     {
-        $cidades = TabelaOrigens::all();
-        $administradoras = Administradora::all();
-        $planos = Plano::all();
-        return view('tabela.index', compact('cidades', 'administradoras','planos'));
-
+        $user = auth()->user(); // Usuário logado
+        $emailAssinatura = EmailAssinatura::where('email', $user->email)->first();
+        $assinaturaId = $emailAssinatura?->assinatura_id; // Usando safe operator para evitar erro se não encontrar
+        $vinculos = AdministradoraPlano::with(['administradora', 'plano', 'cidade'])->where('assinatura_id', $assinaturaId)->get();
+        $administradoras = $vinculos->pluck('administradora')->unique('id')->values();
+        $planos = $vinculos->pluck('plano')->unique('id')->values();
+        $cidades = $vinculos->pluck('cidade')->unique('id')->values();
+        $estados = $vinculos->pluck('estado')->unique('uf')->values();
+        return view('tabela.index', compact('cidades', 'administradoras','planos','estados'));
     }
 
     public function planosAdministradoraSelect(Request $request)

@@ -40,8 +40,43 @@ class AssinaturaController extends Controller
         return view('assinaturas.individual.create');
     }
 
+    public function edit()
+    {
+        return view('assinaturas.trial.create');
+    }
+
+    private function administradoraPlanos($assinatura_id)
+    {
+        // Array de associações, cada um é um registro que será inserido
+        $associacoes = [
+            [
+                'plano_id' => 1,
+                'administradora_id' => 1,
+                'tabela_origens_id' => 2,
+            ],
+            [
+                'plano_id' => 2,
+                'administradora_id' => 1,
+                'tabela_origens_id' => 2,
+            ],
+
+            // Adicione novos aqui conforme necessidade
+        ];
+
+        foreach ($associacoes as $associacao) {
+            // Cria o registro no banco vinculando a assinatura
+            \App\Models\AdministradoraPlano::create([
+                'plano_id'          => $associacao['plano_id'],
+                'administradora_id' => $associacao['administradora_id'],
+                'tabela_origens_id' => $associacao['tabela_origens_id'],
+                'assinatura_id'     => $assinatura_id,
+            ]);
+        }
+    }
+
     public function storeIndividual(Request $request)
     {
+
         $isTrial = $request->has('trial');
         $validationRules = [
             'name' => 'required|string|max:255',
@@ -137,16 +172,18 @@ class AssinaturaController extends Controller
     /** Criação da assinatura trial */
     private function createTrialAssinatura($user)
     {
-        return Assinatura::create([
+        $assinatura = Assinatura::create([
             'user_id' => $user->id,
             'tipo_plano_id' => 1,
             'status' => 'trial',
             'trial_ends_at' => now()->addDays(7),
-            'emails_permitidos' => 3,
+            'emails_permitidos' => 1,
             'emails_extra' => 1,
             'preco_base' => 0,
             'preco_total' => 0,
         ]);
+        $this->administradoraPlanos($assinatura->id);
+        return $assinatura;
     }
 
     public function historicoPagamentos()
@@ -215,7 +252,7 @@ class AssinaturaController extends Controller
         $emailsExtra = 0;
         $precoTotal = $precoBase + ($emailsExtra * 37.90);
 
-        return Assinatura::create([
+        $assinatura = Assinatura::create([
             'user_id' => $user->id,
             'tipo_plano_id' => 1,
             'preco_base' => $precoBase,
@@ -225,6 +262,9 @@ class AssinaturaController extends Controller
             'status' => 'ativo',
             'subscription_id' => $subscription_id
         ]);
+        $this->administradoraPlanos($assinatura->id);
+
+        return $assinatura;
     }
 
     /** Criação da assinatura Efi */
@@ -235,7 +275,7 @@ class AssinaturaController extends Controller
         ];
         $items = [
             [
-                "name" => "Plano Select",
+                "name" => "Select",
                 "amount" => 1,
                 "value" => 3990 // R$39,90 em centavos
             ]
@@ -265,11 +305,87 @@ class AssinaturaController extends Controller
                 ]
             ],
             "metadata" => [
-                "notification_url" => "https://select.bmsys.com.br"
+                "notification_url" => "https://select.bmsys.com.br/callback"
             ]
         ];
 
         return $this->efi->createOneStepSubscription($params, $body);
+    }
+
+    public function storeTrial(Request $request)
+    {
+        try {
+            $user = User::find(auth()->user()->id);
+            $params = ["id" => 13464];
+            $items = [
+                [
+                    "name" => "Select",
+                    "amount" => 1,
+                    "value" => 3990
+                ]
+            ];
+            // Dados do cliente
+            $customer = [
+                "name" => $user->name,
+                "cpf" => $user->cpf,
+                "phone_number" => preg_replace('/[^0-9]/', '', $user->phone),
+                "email" => $user->email,
+                "birth" => $user->birth_date instanceof \Carbon\Carbon ? $user->birth_date->format('Y-m-d') : $user->birth_date
+            ];
+
+            // Endereço (também necessário)
+            $billingAddress = [
+                "street" => $request->street,
+                "number" => !empty($request->number) ? $request->number : "S/N",
+                "neighborhood" => $request->neighborhood, // Adicionar campo no formulário
+                "zipcode" => str_replace('-', '', $request->zipcode), // Adicionar campo no formulário
+                "city" => $request->city, // Adicionar campo no formulário
+                "state" => $request->state, // Adicionar campo no formulário
+            ];
+
+            $body = [
+                "items" => $items,
+                "payment" => [
+                    "credit_card" => [
+                        "billing_address" => $billingAddress,
+                        "payment_token" => $request->paymentToken,
+                        "customer" => $customer
+                    ]
+                ],
+                "metadata" => [
+                    "notification_url" => "https://select.bmsys.com.br/callback"
+                ]
+            ];
+
+            $response = $this->efi->createOneStepSubscription($params, $body);
+
+            $assinatura = Assinatura::where("user_id",$user->id)->first();
+            $assinatura->preco_base = 39.90;
+            $assinatura->preco_total = 39.90;
+            $assinatura->status = 'ativo';
+            $assinatura->subscription_id = $response['data']['subscription_id'];
+            $assinatura->trial_ends_at = null;
+            $assinatura->save();
+
+            session()->flash('success', 'Assinatura Atualizada com sucesso');
+            return response()->json([
+                'success' => true,
+                'redirect' => route('dashboard')
+            ]);
+
+
+        } catch (EfiException $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+                'code' => $e->getCode()
+            ], 400);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
 
