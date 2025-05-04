@@ -302,6 +302,13 @@ class ConfiguracoesController extends Controller
         return back()->with('success', 'Desconto excluído!');
     }
 
+    public function mudarTabela(Request $request)
+    {
+        $ta = Tabela::find($request->id);
+        $ta->valor = str_replace([".",","],["","."],$request->valor);
+        $ta->save();
+    }
+
     public function storeCupon(Request $request)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
