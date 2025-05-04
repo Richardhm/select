@@ -217,10 +217,17 @@ class DashboardController extends Controller
         $texto_enfermaria = "";
         $texto_apartamento = "";
 
-        $planosFamiliares = [1, 4];
-        if(in_array($plano, $planosFamiliares)) {
+        // Definir arrays para cada categoria de plano
+        $planosFamiliares100 = [1, 4];
+        $planosFamiliares110 = [5];
+
+        // Verificar a categoria do plano atual
+        if (in_array($plano, $planosFamiliares100)) {
             $texto_enfermaria = "Familiar 100";
             $texto_apartamento = "Familiar 200";
+        } elseif (in_array($plano, $planosFamiliares110)) {
+            $texto_enfermaria = "Familiar 110";
+            $texto_apartamento = "Familiar 120";
         } else {
             $texto_enfermaria = "Empresarial 100";
             $texto_apartamento = "Empresarial 200";
