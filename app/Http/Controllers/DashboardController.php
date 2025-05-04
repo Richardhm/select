@@ -52,7 +52,7 @@ class DashboardController extends Controller
             $cidades = $vinculos->pluck('cidade')->unique('id')->values();
 
 
-            $estados = $vinculos->pluck('estado')->unique('id')->values();
+            $estados = $vinculos->pluck('estado')->unique('uf')->values();
 
 
 
