@@ -561,7 +561,7 @@ class ConfiguracoesController extends Controller
         }
 
         // Cria os 6 registros novos
-        for ($i = 1; $i <= 6; $i++) {
+        for ($i = 1; $i <= 8; $i++) {
             \App\Models\Carencia::create([
                 'plano_id'          => $plano_id,
                 'tabela_origens_id' => $tabela_origens_id,
