@@ -570,9 +570,7 @@ class ConfiguracoesController extends Controller
 
             ]);
         }
-        return response()->json([
-            'success' => true
-        ]);
+        return back()->with('success', 'Carência salva!');
     }
 
 
