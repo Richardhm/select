@@ -271,21 +271,142 @@ class TabelaController extends Controller
                 return $pdf->first();
             }
             return "nada";
-
-
         }
+    }
 
+    public function orcamento(Request $request)
+    {
+        $ambulatorial = $request->ambulatorial;
+        $sql = "";
+        $chaves = [];
+        foreach(request()->faixas[0] as $k => $v) {
+            if($v != null AND $v != 0) {
+                $sql .= " WHEN tabelas.faixa_etaria_id = {$k} THEN ${v} ";
+                $chaves[] = $k;
+            }
+        }
+        $keys = implode(",", $chaves);
+        $cidade = request()->tabela_origem;
+        $plano = request()->plano;
+        $operadora = request()->operadora;
+        $imagem_operadora = Administradora::find($operadora)->logo;
+        $plano_nome = Plano::find($plano)->nome;
+        $imagem_plano = Administradora::find($operadora)->logo;
+        $cidade_nome = TabelaOrigens::find($cidade)->nome;
 
+        // Verifica se é um plano que usa a lógica de múltiplas vidas
+        $planoInfo = Plano::find($plano);
+        $usaMultiplasVidas = $planoInfo->usa_multiplas_vidas ?? false; // Assumindo que você adicionará este campo na tabela planos
 
+        if ($usaMultiplasVidas) {
+            // Buscar dados para cada quantidade de vidas (1, 2, 3, 4)
+            $todasTabelas = [];
 
+            for ($qtdVidas = 1; $qtdVidas <= 4; $qtdVidas++) {
+                if ($ambulatorial == 0) {
+                    $dados = Tabela::select('tabelas.*')
+                        ->selectRaw("CASE $sql END AS quantidade")
+                        ->join('faixa_etarias', 'faixa_etarias.id', '=', 'tabelas.faixa_etaria_id')
+                        ->where('tabelas.tabela_origens_id', $cidade)
+                        ->where('tabelas.plano_id', $plano)
+                        ->where('tabelas.administradora_id', $operadora)
+                        ->where('tabelas.vidas', $qtdVidas) // Filtrar por quantidade de vidas
+                        ->whereIn('tabelas.faixa_etaria_id', explode(',', $keys))
+                        ->get();
+
+                    $todasTabelas[$qtdVidas] = $dados;
+                } else {
+                    $dados = Tabela::select('tabelas.*')
+                        ->selectRaw("CASE $sql END AS quantidade")
+                        ->join('faixa_etarias', 'faixa_etarias.id', '=', 'tabelas.faixa_etaria_id')
+                        ->where('tabelas.tabela_origens_id', $cidade)
+                        ->where('tabelas.plano_id', $plano)
+                        ->where('tabelas.administradora_id', $operadora)
+                        ->where('acomodacao_id', "=", 3)
+                        ->where('tabelas.vidas', $qtdVidas) // Filtrar por quantidade de vidas
+                        ->whereIn('tabelas.faixa_etaria_id', explode(',', $keys))
+                        ->get();
+
+                    $todasTabelas[$qtdVidas] = $dados;
+                }
+            }
+
+            // Verificar status de odonto para cada tabela
+            $status = collect($todasTabelas)->flatten()->contains('odonto', 0);
+            $status_odonto = $ambulatorial == 0 ? collect($todasTabelas)->flatten()->contains('odonto', 1) : false;
+
+            if ($ambulatorial == 0) {
+                return view("cotacao.cotacao2-tabela-multiplas-vidas", [
+                    "todasTabelas" => $todasTabelas,
+                    "operadora" => $imagem_operadora,
+                    "plano_nome" => $plano_nome,
+                    "cidade_nome" => $cidade_nome,
+                    "imagem_plano" => $imagem_plano,
+                    "status" => $status,
+                    "status_odonto" => $status_odonto
+                ]);
+            } else {
+                return view("cotacao.cotacao-ambulatorial-tabela-multiplas-vidas", [
+                    "todasTabelas" => $todasTabelas,
+                    "operadora" => $imagem_operadora,
+                    "plano_nome" => $plano_nome,
+                    "cidade_nome" => $cidade_nome,
+                    "imagem_plano" => $imagem_plano,
+                    "status" => $status
+                ]);
+            }
+        } else {
+            // Código original para planos sem múltiplas vidas
+            if ($ambulatorial == 0) {
+                $dados = Tabela::select('tabelas.*')
+                    ->selectRaw("CASE $sql END AS quantidade")
+                    ->join('faixa_etarias', 'faixa_etarias.id', '=', 'tabelas.faixa_etaria_id')
+                    ->where('tabelas.tabela_origens_id', $cidade)
+                    ->where('tabelas.plano_id', $plano)
+                    ->where('tabelas.administradora_id', $operadora)
+                    ->whereIn('tabelas.faixa_etaria_id', explode(',', $keys))
+                    ->get();
+
+                $status = $dados->contains('odonto', 0);
+                $status_odonto = $dados->contains('odonto', 1);
+                return view("cotacao.cotacao2-tabela", [
+                    "dados" => $dados,
+                    "operadora" => $imagem_operadora,
+                    "plano_nome" => $plano_nome,
+                    "cidade_nome" => $cidade_nome,
+                    "imagem_plano" => $imagem_plano,
+                    "status" => $status,
+                    "status_odonto" => $status_odonto
+                ]);
+            } else {
+                $dados = Tabela::select('tabelas.*')
+                    ->selectRaw("CASE $sql END AS quantidade")
+                    ->join('faixa_etarias', 'faixa_etarias.id', '=', 'tabelas.faixa_etaria_id')
+                    ->where('tabelas.tabela_origens_id', $cidade)
+                    ->where('tabelas.plano_id', $plano)
+                    ->where('tabelas.administradora_id', $operadora)
+                    ->where('acomodacao_id', "=", 3)
+                    ->whereIn('tabelas.faixa_etaria_id', explode(',', $keys))
+                    ->get();
+
+                $status = $dados->contains('odonto', 0);
+                return view("cotacao.cotacao-ambulatorial-tabela", [
+                    "dados" => $dados,
+                    "operadora" => $imagem_operadora,
+                    "plano_nome" => $plano_nome,
+                    "cidade_nome" => $cidade_nome,
+                    "imagem_plano" => $imagem_plano,
+                    "status" => $status
+                ]);
+            }
+        }
     }
 
 
 
 
 
-
-    public function orcamento(Request $request)
+    public function orcamentoOld(Request $request)
     {
         $ambulatorial = $request->ambulatorial;
         $sql = "";
@@ -304,6 +425,8 @@ class TabelaController extends Controller
         $plano_nome = Plano::find($plano)->nome;
         $imagem_plano = Administradora::find($operadora)->logo;
         $cidade_nome = TabelaOrigens::find($cidade)->nome;
+
+
         if($ambulatorial == 0) {
             $dados = Tabela::select('tabelas.*')
                 ->selectRaw("CASE $sql END AS quantidade")
@@ -347,9 +470,6 @@ class TabelaController extends Controller
                 "status" => $status
             ]);
         }
-
-
-
     }
 
 
