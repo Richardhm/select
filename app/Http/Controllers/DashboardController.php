@@ -217,7 +217,8 @@ class DashboardController extends Controller
         $texto_enfermaria = "";
         $texto_apartamento = "";
 
-        if($plano == 1) {
+        $planosFamiliares = [1, 4];
+        if(in_array($plano, $planosFamiliares)) {
             $texto_enfermaria = "Familiar 100";
             $texto_apartamento = "Familiar 200";
         } else {
