@@ -52,7 +52,7 @@ class DashboardController extends Controller
             $cidades = $vinculos->pluck('cidade')->unique('id')->values();
 
 
-            $estados = TabelaOrigens::select('uf')->distinct()->get();
+            $estados = $vinculos->pluck('estado')->unique('id')->values();
 
 
 
@@ -214,6 +214,21 @@ class DashboardController extends Controller
         $linha_01 = "";
         $linha_02 = "";
 
+        $texto_enfermaria = "";
+        $texto_apartamento = "";
+
+        if($plano == 1) {
+            $texto_enfermaria = "Familiar 100";
+            $texto_apartamento = "Familiar 200";
+        } else {
+            $texto_enfermaria = "Empresarial 100";
+            $texto_apartamento = "Empresarial 200";
+        }
+
+
+
+
+
         $cidade_uf = TabelaOrigens::find($cidade)->uf;
         $status_excecao = false;
 
@@ -326,6 +341,8 @@ class DashboardController extends Controller
                     'apenas_valores' => $apenasvalores,
                     'folder' => $layout_folder,
                     'linha_01' => $linha_01,
+                    'texto_enfermaria' => $texto_enfermaria,
+                    'texto_apartamento' => $texto_apartamento,
                     //'carencia' => 0,
                     'linha_02' => $linha_02,
                     'carencia_texto' => $carencia,
@@ -366,6 +383,8 @@ class DashboardController extends Controller
                     'apenas_valores' => $apenasvalores,
                     'cabecalho' => $cabecalho,
                     'folder' => $layout_folder,
+                    'texto_enfermaria' => $texto_enfermaria,
+                    'texto_apartamento' => $texto_apartamento,
                     //'carencias' => $carencias,
                     'dados' => $dados,
                     //'pdf' => $pdf_copar,

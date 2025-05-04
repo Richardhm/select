@@ -3,11 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\CustomVerifyEmail;
+use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -21,6 +24,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'imagem',
+        'cpf',
+        'birth_date',
     ];
 
     /**
@@ -44,6 +51,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail());
     }
 
     // Verificar se o usuário logado é administrador da assinatura vai ter acesso ao users/manage
@@ -80,6 +92,29 @@ class User extends Authenticatable
 
         return $folder ?: false;
     }
+
+    public function isOnTrial()
+    {
+        return $this->assinatura->status === 'trial' &&
+            now()->lt($this->assinatura->trial_ends_at);
+    }
+
+    public function estaEmTrial()
+    {
+        return $this->assinaturaStatus()
+            ->where('status', 'trial')
+            ->whereNotNull('trial_ends_at')
+            ->where('trial_ends_at', '>', Carbon::now())
+            ->exists();
+    }
+
+    public function assinaturaStatus()
+    {
+
+        return $this->hasMany(\App\Models\Assinatura::class, 'user_id');
+    }
+
+
 
 
 

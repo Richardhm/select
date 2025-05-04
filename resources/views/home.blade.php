@@ -381,7 +381,7 @@
 
         <div class="flex flex-col md:flex-row gap-6 justify-center items-stretch">
             <!-- Plano Individual -->
-            <a href="" class="bg-white w-full md:w-[320px] min-h-[70vh] rounded-xl shadow-lg p-4 md:p-6 border-4 border-purple-950 transition-all hover:bg-gray-100 flex flex-col justify-between">
+            <a href="{{route('assinaturas.individual.create')}}" class="bg-white w-full md:w-[320px] min-h-[70vh] rounded-xl shadow-lg p-4 md:p-6 border-4 border-purple-950 transition-all hover:bg-gray-100 flex flex-col justify-between">
                 <div>
 
                     <div class="bg-red-600 text-white text-center py-3 rounded-full mt-6">

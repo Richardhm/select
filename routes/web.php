@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\AssinaturaController;
+use App\Http\Controllers\BemvindoController;
 use App\Http\Controllers\ConfiguracoesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TabelaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +13,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/assinaturas/plano', [AssinaturaController::class, 'createIndividual'])->name('assinaturas.individual.create');
+Route::post('/assinaturas/individual', [AssinaturaController::class, 'storeIndividual'])->name('assinaturas.individual.store');
 
+Route::get('/bem-vindo/{user}', [BemvindoController::class, 'index'])->name('bemvindo');
 
 Route::middleware('auth')->group(function () {
 
@@ -79,14 +86,20 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users/manage', [UserController::class, 'index'])->name('users.manage')
         ->middleware(['apenasAdministradores','check']);
+    Route::get("/assinatura/alterar", [AssinaturaController::class, 'edit'])->name('assinatura.edit')->middleware('apenasAdministradores');
+    Route::post('/users/editar/manager', [UserController::class, 'getUser'])->name('users.get');
+    Route::post('/users/alterar',[UserController::class,'alterar'])->name('users.alterar');
+    Route::post('/users/update', [UserController::class, 'update'])->name('users.update');
+    Route::post('/users/deletar', [UserController::class, 'deletar'])->name('deletar.user');
     Route::post('/users/manage', [UserController::class, 'storeUser'])->name('storeUser')->middleware('apenasAdministradores');
 
+    Route::get('/assinatura/historico', [AssinaturaController::class, 'historicoPagamentos'])->middleware(['auth', 'verified','check'])->name('assinatura.historico');
+    Route::get('/tabela_completa',[TabelaController::class,'index'])->name('tabela_completa.index')->middleware(['check']);
 
 
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+Route::post('/dashboard/tabela/orcamento',[TabelaController::class,'orcamento'])->middleware(['auth', 'verified'])->name('orcamento.tabela.montarOrcamento');
 require __DIR__.'/auth.php';

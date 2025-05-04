@@ -9,15 +9,15 @@
                         <a href="#tab0" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent active rounded-tl-lg rounded-tr-lg">Tabelas</a>
                         <a href="#tab1" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent">Coparticipações</a>
                         <a href="#tab2" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent">Cidades</a>
-                        <a href="#tab3" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent">Assinaturas/Cidade</a>
+                        <a href="#tab3" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent hidden">Assinaturas/Cidade</a>
                         <a href="#tab4" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent">Administradora</a>
                         <a href="#tab5" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">Planos</a>
                         <a href="#tab6" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">Desconto</a>
-                        <a href="#tab7" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">Assinaturas/User</a>
+                        <a href="#tab7" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg hidden">Assinaturas/User</a>
                         <a href="#tab8" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">Administradora/Plano/Cidade</a>
                         <a href="#tab9" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">Cupons</a>
                         <a href="#tab10" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">Carencia</a>
-                        <a href="#tab11" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg">PDF Exceção</a>
+                        <a href="#tab11" class="tab-button whitespace-nowrap py-3 px-2 border-b-2 font-medium text-sm text-white hover:bg-white/10 transition-all border-transparent rounded-tr-lg hidden">PDF Exceção</a>
 
                     </nav>
                 </div>
@@ -32,7 +32,7 @@
                         <x-configuracoes.pdf-tab />
                     </div>
                     <div id="tab2" class="tab-content hidden">
-{{--                        <x-configuracoes.cidades-tab />--}}
+                        <x-configuracoes.cidades-tab />
                     </div>
                     <div id="tab3" class="tab-content hidden">
 {{--                        <x-configuracoes.assinaturas-cidade-tab />--}}
@@ -44,7 +44,7 @@
                         <x-configuracoes.planos-tab />
                     </div>
                     <div id="tab6" class="tab-content hidden">
-{{--                        <x-configuracoes.desconto-tab />--}}
+                        <x-configuracoes.desconto-tab />
                     </div>
                     <div id="tab7" class="tab-content hidden">
 {{--                        <x-configuracoes.assinaturas-user :perPage="15" />--}}
@@ -53,7 +53,7 @@
                         <x-configuracoes.administradora-plano-cidade />
                     </div>
                     <div id="tab9" class="tab-content hidden">
-{{--                        <x-configuracoes.cupons-tab />--}}
+                        <x-configuracoes.cupons-tab />
                     </div>
                     <div id="tab10" class="tab-content hidden">
                         <x-configuracoes.carencia-tab />
@@ -403,47 +403,47 @@
                 });
             });
 
-            // document.querySelector('form[name="cupon-form"]').addEventListener('submit', async function(e) {
-            //     e.preventDefault();
-            //
-            //     const formData = new FormData(this);
-            //     const successMessage = document.getElementById('success-message');
-            //
-            //     try {
-            //         const response = await fetch(this.action, {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Accept': 'application/json',
-            //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            //             },
-            //             body: formData
-            //         });
-            //
-            //         const data = await response.json();
-            //
-            //         if (data.success) {
-            //             console.log(data);
-            //             // Exibir mensagem de sucesso
-            //             document.getElementById('success-codigo').textContent = data.codigo;
-            //             document.getElementById('success-validade').textContent = data.validade;
-            //             document.getElementById('success-plano').textContent = parseFloat(data.valor_plano).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            //             document.getElementById('success-desconto').textContent = parseFloat(data.valor_desconto).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            //             successMessage.classList.remove('hidden');
-            //
-            //             // Rolagem suave para a mensagem
-            //             successMessage.scrollIntoView({ behavior: 'smooth' });
-            //
-            //             // Resetar formulário
-            //             this.reset();
-            //         } else {
-            //             alert('Erro: ' + (data.message || 'Falha ao cadastrar'));
-            //         }
-            //
-            //     } catch (error) {
-            //         console.error('Erro:', error);
-            //         alert('Erro na comunicação com o servidor');
-            //     }
-            // });
+            document.querySelector('form[name="cupon-form"]').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const successMessage = document.getElementById('success-message');
+
+                try {
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        console.log(data);
+                        // Exibir mensagem de sucesso
+                        document.getElementById('success-codigo').textContent = data.codigo;
+                        document.getElementById('success-validade').textContent = data.validade;
+                        document.getElementById('success-plano').textContent = parseFloat(data.valor_plano).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        document.getElementById('success-desconto').textContent = parseFloat(data.valor_desconto).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        successMessage.classList.remove('hidden');
+
+                        // Rolagem suave para a mensagem
+                        successMessage.scrollIntoView({ behavior: 'smooth' });
+
+                        // Resetar formulário
+                        this.reset();
+                    } else {
+                        alert('Erro: ' + (data.message || 'Falha ao cadastrar'));
+                    }
+
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro na comunicação com o servidor');
+                }
+            });
 
 
 
@@ -610,32 +610,32 @@
                 input.dispatchEvent(event);
             });
 
-            {{--document.getElementById('formDesconto').addEventListener('submit', async function(e) {--}}
-            {{--    e.preventDefault();--}}
+            document.getElementById('formDesconto').addEventListener('submit', async function(e) {
+                e.preventDefault();
 
-            {{--    const formData = new FormData(this);--}}
+                const formData = new FormData(this);
 
-            {{--    try {--}}
-            {{--        const response = await fetch('{{ route("descontos.store") }}', {--}}
-            {{--            method: 'POST',--}}
-            {{--            headers: {--}}
-            {{--                'Accept': 'application/json',--}}
-            {{--            },--}}
-            {{--            body: formData--}}
-            {{--        });--}}
+                try {
+                    const response = await fetch('{{ route("descontos.store") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        body: formData
+                    });
 
-            {{--        const data = await response.json();--}}
+                    const data = await response.json();
 
-            {{--        if (data.success) {--}}
-            {{--            window.location.reload();--}}
-            {{--        } else {--}}
-            {{--            alert('Erro: ' + (data.message || 'Falha ao salvar descontos'));--}}
-            {{--        }--}}
-            {{--    } catch (error) {--}}
-            {{--        console.error('Erro:', error);--}}
-            {{--        alert('Erro ao salvar descontos');--}}
-            {{--    }--}}
-            {{--});--}}
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert('Erro: ' + (data.message || 'Falha ao salvar descontos'));
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao salvar descontos');
+                }
+            });
 
             $('#bloco-planos').hide();
             $('#bloco-tabelas').hide();

@@ -38,6 +38,11 @@ class AdministradoraPlano extends Model
         return $this->belongsTo(TabelaOrigens::class,'tabela_origens_id');
     }
 
+    public function estado()
+    {
+        return $this->belongsTo(TabelaOrigens::class,'tabela_origens_id');
+    }
+
     public function tabelaOrigem()
     {
         return $this->belongsTo(TabelaOrigens::class, 'tabela_origens_id');

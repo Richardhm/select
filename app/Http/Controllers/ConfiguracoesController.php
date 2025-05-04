@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdministradoraPlano;
+use App\Models\Cupom;
+use App\Models\Desconto;
 use App\Models\Pdf;
+use App\Models\TabelaOrigens;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Administradora;
 use App\Models\Plano;
 use App\Models\Tabela;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ConfiguracoesController extends Controller
 {
@@ -231,14 +236,14 @@ class ConfiguracoesController extends Controller
     }
 
 
+
+
     public function administradoraDestroy(Administradora $administradora)
     {
         try {
             if ($administradora->dependentes()->exists()) {
                 return back()->with('error', 'Existem registros vinculados!');
             }
-
-
             if ($administradora->logo) {
                 $filename = str_replace('administradoras/', '', $administradora->logo);
                 Storage::disk('administradoras')->delete($filename);
@@ -251,6 +256,174 @@ class ConfiguracoesController extends Controller
             return back()->with('error', 'Erro: ' . $e->getMessage());
         }
     }
+
+    public function storeDesconto(Request $request)
+    {
+
+        $request->validate([
+            'planos' => 'required|array|min:1',
+            'planos.*' => 'exists:planos,id',
+            'cidades' => 'required|array|min:1',
+            'cidades.*' => 'exists:tabela_origens,id',
+            'valor' => 'nullable|numeric|min:0',
+            'administradora' => 'required|array|min:1',
+            'administradora.*' => 'exists:administradoras,id',
+        ]);
+
+        try {
+            foreach ($request->planos as $planoId) {
+                foreach ($request->cidades as $cidadeId) {
+                    foreach ($request->administradora as $administradoraId) {
+                        Desconto::updateOrCreate(
+                            [
+                                'plano_id' => $planoId,
+                                'tabela_origens_id' => $cidadeId,
+                                'administradora_id' => $administradoraId
+                            ],
+                            ['valor' => $request->valor]
+                        );
+                    }
+                }
+            }
+
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function destroyDesconto(Desconto $desconto)
+    {
+        $desconto->delete();
+        return back()->with('success', 'Desconto excluído!');
+    }
+
+    public function storeCupon(Request $request)
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            //'codigo' => 'required|string|size:10|unique:cupons',
+            'desconto_plano' => 'required|min:0',
+            'desconto_extra' => 'required|min:0',
+            'duracao_horas' => 'required|min:0|max:8760',
+            'duracao_minutos' => 'required|min:0|max:59',
+            'duracao_segundos' => 'required|min:0|max:59',
+            'usos_maximos' => 'nullable|integer|min:1',
+            'ativo' => 'required|boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+
+            $codigo = $this->gerarCodigoUnico();
+
+            $horas = (int)$request->duracao_horas;
+            $minutos = (int)$request->duracao_minutos;
+            $segundos = (int)$request->duracao_segundos;
+
+            $validade = Carbon::now()
+                ->addHours($horas)
+                ->addMinutes($minutos)
+                ->addSeconds($segundos);
+
+            $cupom = Cupom::create([
+                'codigo' => $codigo,
+                'desconto_plano' => str_replace([".",","],["","."],$request->desconto_plano),
+                'desconto_extra' => str_replace([".",","],["","."],$request->desconto_extra),
+                'duracao_horas' => $request->duracao_horas,
+                'duracao_minutos' => $request->duracao_minutos,
+                'duracao_segundos' => $request->duracao_segundos,
+                'validade' => $validade->setTimezone(config('app.timezone')),
+                'usos_maximos' => $request->usos_maximos,
+                'ativo' => $request->ativo
+            ]);
+
+            $dado = Cupom::find($cupom->id);
+
+
+
+            return response()->json([
+                'success' => true,
+                'codigo' => $dado->codigo,
+                'validade' => $dado->validade->format('Y-m-d H:i:s'),
+                'valor_plano' => 39.90 - $dado->desconto_plano,
+                'valor_desconto' => 37.39 - $dado->desconto_extra,
+                'message' => 'Cupom criado com sucesso!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao criar cupom: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function gerarCodigoUnico()
+    {
+        $tentativas = 0;
+        $max_tentativas = 5;
+
+        do {
+            $codigo = $this->gerarCodigoAleatorio();
+            $tentativas++;
+        } while (Cupom::where('codigo', $codigo)->exists() && $tentativas < $max_tentativas);
+
+        if ($tentativas >= $max_tentativas) {
+            throw new \Exception('Não foi possível gerar um código único após várias tentativas');
+        }
+
+        return $codigo;
+    }
+
+    private function gerarCodigoAleatorio()
+    {
+        $caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        return substr(str_shuffle(str_repeat($caracteres, 5)), 0, 10);
+    }
+
+
+
+
+
+    public function cidadeStore(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'uf' => 'required|string|size:2'
+        ]);
+        TabelaOrigens::create($request->all());
+        return redirect()->back()->with('success', 'Cidade cadastrada!');
+    }
+
+    public function cidadeDestroy($id)
+    {
+
+        try {
+            $cidade = TabelaOrigens::findOrFail($id);
+            if ($cidade->tabelaModels()->exists()) {
+                return redirect()->back()
+                    ->with('error', 'Não é possível excluir: cidade possui registros vinculados!');
+            }
+            TabelaOrigens::destroy($id);
+            return redirect()->back()->with('success', 'Cidade excluída!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Erro ao excluir: ' . $e->getMessage());
+        }
+
+    }
+
+
 
     public function storePlanos(Request $request)
     {

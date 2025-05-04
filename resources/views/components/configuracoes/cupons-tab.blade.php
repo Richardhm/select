@@ -107,13 +107,13 @@
 
         <div class="text-gray-700 space-y-4 text-sm">
             <p class="border-black border-2 rounded p-1">
-                <span class="font-semibold">Desconto Plano (R$):</span> Base de <strong>R$250,00</strong>. O valor inserido será descontado deste valor.<br />
-                <span class="text-blue-600">Exemplo:</span> Inserindo <strong>R$100,00</strong> → Resultado: <strong>R$250,00 - R$100,00 = R$150,00(Valor Plano)</strong>.
+                <span class="font-semibold">Desconto Plano (R$):</span> Base de <strong>R$39,90</strong>. O valor inserido será descontado deste valor.<br />
+                <span class="text-blue-600">Exemplo:</span> Inserindo <strong>R$10,00</strong> → Resultado: <strong>R$39,90 - R$10,00 = R$29,90(Valor Plano)</strong>.
             </p>
 
             <p class="border-black border-2 rounded p-1">
-                <span class="font-semibold">Desconto por Extra (R$):</span> Base de <strong>R$50,00</strong>. O valor inserido será descontado deste valor.<br />
-                <span class="text-blue-600">Exemplo:</span> Inserindo <strong>R$30,00</strong> → Resultado: <strong>R$50,00 - R$30,00 = R$20,00</strong> por usuário extra (email).
+                <span class="font-semibold">Desconto por Extra (R$):</span> Base de <strong>R$37,90</strong>. O valor inserido será descontado deste valor.<br />
+                <span class="text-blue-600">Exemplo:</span> Inserindo <strong>R$10,00</strong> → Resultado: <strong>R$37,90 - R$10,00 = R$27,90</strong> por usuário extra (email).
 
             </p>
             <p class="border-black border-2 rounded p-1">
@@ -121,7 +121,7 @@
                 Defina o número máximo de usos permitidos para esta promoção.<br />
                 <span class="text-blue-600">Exemplo:</span> Inserindo <strong>3</strong>, apenas os <strong>3 primeiros usuários</strong> conseguirão aproveitar a promoção estando no prazo de validade.
                 <br />
-                <span class="text-center text-red-600 block">Se deicar o campo vazio o numero de uso vai ser ilimitado</span>
+                <span class="text-center text-red-600 block">Se deixar o campo vazio o numero de uso vai ser ilimitado</span>
             </p>
         </div>
     </div>
