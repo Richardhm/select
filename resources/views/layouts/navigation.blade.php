@@ -10,6 +10,19 @@
                     </a>
                 </div>
 
+                @php
+                    $assinaturaId = \Illuminate\Support\Facades\Auth::user()->assinaturas()->first()?->id;
+                @endphp
+
+
+
+            @if(in_array($assinaturaId, [15]))
+                    <div class="shrink-0 flex items-center">
+                        <a href="https://cotacao.bmsys.com.br/dashboard">
+                            <img src="{{ asset('hapvida.jpg') }}" alt="Logo" style="width:70px;height:30px;" class="bg-white rounded-lg hover:bg-blue-100 ml-3">
+                        </a>
+                    </div>
+                @endif
 
             </div>
 

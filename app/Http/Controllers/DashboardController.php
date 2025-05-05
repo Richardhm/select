@@ -241,8 +241,8 @@ class DashboardController extends Controller
         $status_excecao = false;
 
         $admin_nome = Administradora::find($operadora)->nome;
-        $odonto_frase = $odonto == 1 ? " c/ Odonto" : " s/ Odonto";
-        $frase = $plano_nome.$odonto_frase;
+        $odonto_frase = $plano == 1 ? "Individual/Familiar" : "Empresarial";
+        $frase = "Select ".$odonto_frase;
         $keys = implode(",",$chaves);
         $imagem_user = "storage/".auth()->user()->imagem;
 

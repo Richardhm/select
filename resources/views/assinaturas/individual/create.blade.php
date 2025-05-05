@@ -503,11 +503,8 @@
                                             load.fadeIn(100).css("display", "flex");
                                         },
                                         success:function(res) {
-
-                                            //if(res.success == true) {
                                             load.fadeOut(100).css("display", "none");
-                                            // //}
-                                            if (res.success && res.redirect) {
+                                            if(res.success && res.redirect) {
                                                 window.location.href = res.redirect;
                                             }
                                         },
