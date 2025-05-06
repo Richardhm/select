@@ -35,7 +35,7 @@
 
 
             <!-- Settings Dropdown -->
-            @if(Auth::user()->isAdmin() || Auth::user()->isDesenvolvedor())
+
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <a class="relative flex items-center gap-1 {{ !Auth::user()->primeiro_acesso ? 'blink-border shake-arrow' : '' }}"
                    title="Gerenciar Usuários"
@@ -60,7 +60,7 @@
                     @endif
 
                 </a>
-                @endif
+
 
                 <a class="ml-2" style="color:#366EBF;" title="Editar Seu Perfil" alt="Editar Seu Perfil" href="{{route('profile.edit')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
